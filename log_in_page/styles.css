@@ -27,7 +27,7 @@ body {
 .top-banner {
     background: linear-gradient(to right, var(--primary-dark), var(--accent-color));
     color: white;
-    padding: 0.3rem 1.5rem;
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     font-size: 0.85rem;
@@ -38,13 +38,13 @@ body {
 }
 
 /* Header */
-header {
+/* header {
     background-color: white;
     padding: 0.7rem 1.5rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     align-items: center;
-}
+} */
 
 .logo {
     display: flex;
@@ -67,9 +67,13 @@ header {
 /* Navigation */
 nav {
     background-color: white;
-    padding: 0.2rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     border-bottom: 1px solid var(--border-color);
     margin-top: -0.7rem;
+    display: flex;
+    justify-content: space-between; /* Push items to opposite ends horizontally */
+  align-items: flex-start;
+
 }
 
 .nav-links {
@@ -78,6 +82,8 @@ nav {
     gap: 1.1rem;
     position: relative;
     top: -0.2rem;
+    align-items: center;
+    padding: 10px;
 }
 
 nav a {
