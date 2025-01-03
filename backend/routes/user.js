@@ -93,6 +93,8 @@ const encryption_rounds = 10;
 //SIGNUP ROUTE
 
 router.post("/signup", async (req, res) => {
+    console.log('hi form signup route');
+    
     const { 
         firstName, 
         middleName, 
@@ -139,9 +141,9 @@ router.post("/signup", async (req, res) => {
 // SIGNIN ROUTE
 
 router.post('/signin', loginThresholdMiddleware, async (req, res) => {
-    const { email, password } = req.body;
+    const { Email, password } = req.body;
 
-    if (!email || !password) {
+    if (!Email || !password) {
         return res.status(400).json({ message: "Email and password are required" });
     }
 
@@ -168,6 +170,8 @@ router.post('/signin', loginThresholdMiddleware, async (req, res) => {
         console.error("Signin Error:", error.message);
         res.status(500).json({ message: "Internal server error" });
     }
+    console.log('Hi signin successful');
+    
 });
 
 

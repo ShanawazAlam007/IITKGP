@@ -98,7 +98,7 @@
             </div>
 
             <div class="login-link">
-                Already have an account? <a href="#">Log In</a>
+                Already have an account? <a href="../log_in_page/login.html">Log In</a>
             </div>
         </div>
     </main>
@@ -286,5 +286,47 @@
             });
         });
     </script>
+
+    <!-- //backend integration -->
+     <script>
+        console.log('hi from script ');
+        
+        document.addEventListener('DOMContentLoaded', () => {
+    const signupForm = document.querySelector('.signup-box');
+    
+    signupForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        
+        const personalInfo = {
+            firstName: document.getElementById('first-name').value,
+            middleName: document.getElementById('middle-name').value,
+            lastName: document.getElementById('last-name').value,
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value,
+            mobile_no: document.getElementById('phone-number').value,
+            DOB: document.getElementById('date-of-birth').value
+        };
+
+        try {
+            const response = await fetch('http://localhost:8080/auth/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(personalInfo)
+            });
+
+            const data = await response.json();
+            console.log('Success:', data);
+            alert('Signup successful!');
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Signup failed!');
+        }
+    });
+});
+     </script>
+
 </body>
 </html>

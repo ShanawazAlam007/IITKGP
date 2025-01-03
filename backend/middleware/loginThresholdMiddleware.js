@@ -7,21 +7,21 @@ const transporter = nodemailer.createTransport({
     secure:true,
     host:"smtp.gmail.com",
     auth: {
-        user: "your-mail@gmail.com",
-        pass: "XXXX"
+        user: "noreply.safebank@gmail.com",
+        pass: "kyxmjytaupdnktsa"
     }
 });
 
 // Middleware to enforce login attempt thresholds
 async function loginThresholdMiddleware(req, res, next) {
-    const { email } = req.body;
+    const { Email } = req.body;
 
-    if (!email) {
+    if (!Email) {
         return res.status(400).json({ message: "Email is required" });
     }
 
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email : Email });
         if (!user) {
             return res.status(401).json({ message: "User not found" });
         }
@@ -37,7 +37,7 @@ async function loginThresholdMiddleware(req, res, next) {
         if (user.loginAttempts === 3) {
             
             await transporter.sendMail({
-                from: "your-mail@gmail.com",
+                from: "noreply.safebank@gmail.com",
                 to: user.email,
                 subject: "⚠️ Suspicious Login Attempts Detected",
                 text: `We've noticed 3 failed login attempts on your account. If this wasn't you, please reset your password immediately.`
