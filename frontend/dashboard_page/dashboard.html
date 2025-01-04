@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeBank - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-university"></i>
+                <h2>SafeBank</h2>
+            </div>
+            
+            <ul class="sidebar-menu">
+                <li><a href="#dashboard" class="active" data-tab="dashboard">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a></li>
+                <li><a href="#transactions" data-tab="transactions">
+                    <i class="fas fa-exchange-alt"></i> Transactions
+                </a></li>
+                <li><a href="#transaction-history" data-tab="transaction-history">
+                    <i class="fas fa-history"></i> Transaction History
+                </a></li>
+                <li><a href="#balance" data-tab="balance">
+                    <i class="fas fa-wallet"></i> Balance
+                </a></li>
+                <li><a href="#bank-statement" data-tab="bank-statement">
+                    <i class="fas fa-file-invoice-dollar"></i> Bank Statement
+                </a></li>
+                <li><a href="#pay-now" data-tab="pay-now">
+                    <i class="fas fa-money-check-alt"></i> Pay Now
+                </a></li>
+                <li><a href="../login_page/login.html">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a></li>
+            </ul>
+
+            <div class="theme-toggle">
+                <button id="theme-switch" class="btn btn-theme">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard Tab -->
+            <section id="dashboard" class="tab-content active">
+                <div class="welcome-section">
+                    <h1>Welcome, Reshob!</h1>
+                    <p>Here's an overview of your banking activities.</p>
+                </div>
+
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>Total Balance</h3>
+                        <p class="card-value">₹9,12,345</p>
+                    </div>
+                    <div class="card">
+                        <h3>Last Transaction</h3>
+                        <p class="card-value text-success">+₹37,500</p>
+                    </div>
+                    <div class="card">
+                        <h3>Pending Transactions</h3>
+                        <p class="card-value text-danger">2</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transactions Tab -->
+            <section id="transactions" class="tab-content">
+                <div class="transactions-header">
+                    <h2>Money Transfer</h2>
+                    <div class="transaction-summary">
+                        <div class="summary-card available-balance">
+                            <i class="fas fa-wallet"></i>
+                            <div>
+                                <span>Available Balance</span>
+                                <strong>₹9,12,345</strong>
+                            </div>
+                        </div>
+                        <div class="summary-card daily-limit">
+                            <i class="fas fa-exchange-alt"></i>
+                            <div>
+                                <span>Daily Transfer Limit</span>
+                                <strong>₹1,00,000</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transactions-container">
+                    <div class="transaction-actions">
+                        <button id="send-money-btn" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Send Money
+                        </button>
+                        <button id="request-money-btn" class="btn btn-secondary">
+                            <i class="fas fa-hand-holding-usd"></i> Request Money
+                        </button>
+                    </div>
+
+                    <div id="payment-gateway" class="payment-gateway" style="display: none;">
+                        <form id="payment-form">
+                            <div class="payment-form-header">
+                                <h3 id="payment-form-title">Send Money</h3>
+                                <p id="payment-form-subtitle">Securely transfer funds to another bank account</p>
+                            </div>
+
+                            <div class="payment-form-body">
+                                <div class="form-group recipient-group">
+                                    <label for="recipient">Recipient Bank Account</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon"><i class="fas fa-university"></i></span>
+                                        <input type="text" id="recipient" name="recipient" 
+                                               placeholder="Enter Bank Account Number" 
+                                               required pattern="[0-9]{9,18}"
+                                               maxlength="18">
+                                        <span class="input-validation">
+                                            <i class="fas fa-check-circle valid-icon"></i>
+                                            <i class="fas fa-times-circle invalid-icon"></i>
+                                        </span>
+                                    </div>
+                                    <small class="form-text text-muted">Enter 9-18 digit bank account number</small>
+                                </div>
+                                
+                                <div class="form-group amount-group">
+                                    <label for="amount">Amount</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon"><i class="fas fa-rupee-sign"></i></span>
+                                        <input type="number" id="amount" name="amount" 
+                                               min="1" max="100000" 
+                                               placeholder="Enter amount"
+                                               required>
+                                        <span class="input-validation">
+                                            <i class="fas fa-check-circle valid-icon"></i>
+                                            <i class="fas fa-times-circle invalid-icon"></i>
+                                        </span>
+                                    </div>
+                                    <small class="form-text text-muted">Maximum limit: ₹1,00,000 per day</small>
+                                </div>
+                                
+                                <div class="form-group method-group">
+                                    <label for="payment-method">Payment Method</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon"><i class="fas fa-exchange-alt"></i></span>
+                                        <select id="payment-method" name="payment-method" required>
+                                            <option value="">Select Payment Method</option>
+                                            <option value="bank-transfer">Bank Transfer</option>
+                                            <option value="neft">NEFT</option>
+                                            <option value="rtgs">RTGS</option>
+                                            <option value="imps">IMPS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group description-group">
+                                    <label for="description">Description (Optional)</label>
+                                    <div class="input-wrapper">
+                                        <span class="input-icon"><i class="fas fa-comment-dots"></i></span>
+                                        <input type="text" id="description" name="description" 
+                                               placeholder="Add a note">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-form-footer">
+                                <div class="payment-actions">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-paper-plane"></i> Confirm Transfer
+                                    </button>
+                                    <button type="button" id="cancel-payment" class="btn btn-danger">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                </div>
+
+                                <div class="payment-security">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Secure & Encrypted Transaction</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="transaction-history">
+                        <h3>Recent Transactions</h3>
+                        <table class="transaction-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-list">
+                                <tr>
+                                    <td>2025-01-03</td>
+                                    <td>Online Purchase</td>
+                                    <td class="text-danger">-₹5,625</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                </tr>
+                                <tr>
+                                    <td>2025-01-02</td>
+                                    <td>Salary Deposit</td>
+                                    <td class="text-success">+₹3,75,000</td>
+                                    <td><span class="status-badge completed">Completed</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Transaction History Tab -->
+            <section id="transaction-history" class="tab-content">
+                <h2>Transaction History</h2>
+                <table class="transaction-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Amount</th>
+                            <th>Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025-01-03</td>
+                            <td>Grocery Store</td>
+                            <td class="text-danger">-₹9,375</td>
+                            <td>Debit</td>
+                        </tr>
+                        <tr>
+                            <td>2025-01-02</td>
+                            <td>Electricity Bill</td>
+                            <td class="text-danger">-₹6,425</td>
+                            <td>Utility</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Balance Tab -->
+            <section id="balance" class="tab-content">
+                <h2>Account Balance</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>Checking Account</h3>
+                        <p class="card-value">₹4,25,925</p>
+                    </div>
+                    <div class="card">
+                        <h3>Savings Account</h3>
+                        <p class="card-value">₹4,99,508</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pay Now Tab -->
+            <section id="pay-now" class="tab-content">
+                <h2>Quick Payment</h2>
+                
+                <div class="payment-container">
+                    <div class="payment-options">
+                        <div class="payment-card">
+                            <i class="fas fa-mobile-alt"></i>
+                            <h3>Mobile Recharge</h3>
+                            <p>Instant mobile top-up</p>
+                            <button class="btn btn-primary" data-payment-type="mobile">Pay Now</button>
+                        </div>
+                        
+                        <div class="payment-card">
+                            <i class="fas fa-lightbulb"></i>
+                            <h3>Electricity Bill</h3>
+                            <p>Pay your electricity provider</p>
+                            <button class="btn btn-primary" data-payment-type="electricity">Pay Now</button>
+                        </div>
+                        
+                        <div class="payment-card">
+                            <i class="fas fa-wifi"></i>
+                            <h3>Internet Bill</h3>
+                            <p>Broadband and internet services</p>
+                            <button class="btn btn-primary" data-payment-type="internet">Pay Now</button>
+                        </div>
+                        
+                        <div class="payment-card">
+                            <i class="fas fa-credit-card"></i>
+                            <h3>Credit Card</h3>
+                            <p>Pay credit card dues</p>
+                            <button class="btn btn-primary" data-payment-type="credit-card">Pay Now</button>
+                        </div>
+                    </div>
+                    
+                    <div class="payment-form" id="payment-form" style="display: none;">
+                        <h3 id="payment-form-title">Make Payment</h3>
+                        <form id="quick-payment-form">
+                            <div class="form-group">
+                                <label for="payment-type">Payment Type</label>
+                                <input type="text" id="payment-type" readonly>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="biller-details">Biller/Service Number</label>
+                                <input type="text" id="biller-details" placeholder="Enter biller or service number" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="payment-amount">Amount (₹)</label>
+                                <input type="number" id="payment-amount" placeholder="Enter amount" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="payment-method">Payment Method</label>
+                                <select id="payment-method" required>
+                                    <option value="">Select Payment Method</option>
+                                    <option value="bank-transfer">Bank Transfer</option>
+                                    <option value="neft">NEFT</option>
+                                    <option value="rtgs">RTGS</option>
+                                    <option value="imps">IMPS</option>
+                                </select>
+                            </div>
+                            
+                            <div class="payment-summary">
+                                <p>Service Charge: ₹0</p>
+                                <p>GST: ₹0</p>
+                                <h4 id="total-amount">Total: ₹0</h4>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-success">Confirm Payment</button>
+                            <button type="button" id="cancel-payment" class="btn btn-secondary">Cancel</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bank Statement Tab -->
+            <section id="bank-statement" class="tab-content">
+                <h2>Bank Statement</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>Current Statement</h3>
+                        <button class="btn">Download PDF</button>
+                        <button class="btn">Print Statement</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
