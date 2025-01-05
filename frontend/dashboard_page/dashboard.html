@@ -347,6 +347,20 @@
                         <h3>Current Statement</h3>
                         <button class="btn">Download PDF</button>
                         <button class="btn">Print Statement</button>
+                        <button class="btn">View</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Container for Date-wise Bank Statement -->
+            <section id="date-wise-statement" class="tab-content">
+                <h2>Download Bank Statement by Date</h2>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <h3>Select Date</h3>
+                        <input type="date" id="statement-date" class="form-control">
+                        <button class="btn" onclick="downloadStatementByDate()">Download PDF</button>
+                        <button class="btn" onclick="viewStatementByDate()">View</button>
                     </div>
                 </div>
             </section>
