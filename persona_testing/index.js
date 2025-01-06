@@ -19,7 +19,7 @@ app.post('/verify-inquiry/:id', async (req, res) => {
     // Fetch data from Persona API
     const response = await axios.get(`https://withpersona.com/api/v1/inquiries/${id}`, {
       headers: {
-        Authorization: `Bearer persona_sandbox_265ecc88-0091-42ff-8358-3111b0394ef9`, // Replace with your API key
+        Authorization: `Bearer api key`, // Replace with your API key
       },
     });
 
