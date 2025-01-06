@@ -1,90 +1,10 @@
-// const { Router } = require("express");
-// const router = Router();
-// const encrypter = require("bcrypt");
-// const auth_middleware = require("../middleware/user_auth.js");
-// const loginThresholdMiddleware=require("../middleware/loginThresholdMiddleware.js")
-// const { User } = require("../db/index.js");
-// const jwt = require("jsonwebtoken");
-// jwt_pass = "B374A26A71490437AA024E4FADD5B497FDFF1A8EA6FF12F6FB65AF2720B59CCF";
-
-
-// const encryption_rounds = 10;
-
-// //login part
-// router.post('/signin', loginThresholdMiddleware,async (req, res) => {
-//     const {email, password } = req.headers;
-
-//     try {
-//         const user = req.user; // From loginThresholdMiddleware
-
-//         // Verify password
-//         const isMatch = await encrypter.compare(password, user.password);
-//         if (!isMatch) {
-//             await user.incrementLoginAttempts();
-//             return res.status(401).json({ message: "Invalid credentials" });
-//         }
-
-//         // Successful login - reset attempts
-//         await user.resetLoginAttempts();
-
-//         // Generate token
-//         const token = jwt.sign({ email: user.email, id: user._id }, jwt_pass, {
-//             expiresIn: "1h",
-//         });
-
-//         res.status(202).json({ msg: "Login successful", token: `Bearer ${token}` });
-//     } catch (error) {
-//         console.error("Signin Error:", error.message);
-//         res.status(500).json({ message: "Internal server error" });
-//     }
-// });
-
-// router.post("/signup", async (req, res) => {
-//     const email = req.headers.email;
-//     const password = req.headers.password;
-
-//     let hashed_pass;
-//     try {
-//         hashed_pass = await encrypter.hash(password, encryption_rounds);
-//     } catch (err) {
-//         res.status(500).json({ msg: "Error hashing password" });
-//         console.log(err); 
-//     }
-
-//     if (!hashed_pass) {
-//         res.status(400).json({
-//             msg: "Something went wrong"
-//         })
-//     }
-//     try {
-//         const user = await new User({
-//             email: email,
-//             password: hashed_pass
-//         });
-//         user.save();
-//         const token = jwt.sign(email, jwt_pass);
-//         res.status(201).json({
-//             token: "Bearer " + token
-//         });
-//     } catch (err) {
-//         console.log(err);
-//         res.status(400).json({
-//             msg: "Something went wrong",
-//         });
-//     }
-// })
-
-// module.exports= router;
-
-
-
 const { Router } = require("express");
 const router = Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const auth_middleware = require("../middleware/user_auth.js");
 const loginThresholdMiddleware = require("../middleware/loginThresholdMiddleware.js");
-const { User } = require("../db/index.js");
+const { User , User_details} = require("../db/index.js");
 
 const jwt_pass = "B374A26A71490437AA024E4FADD5B497FDFF1A8EA6FF12F6FB65AF2720B59CCF";
 const encryption_rounds = 10;
@@ -123,7 +43,14 @@ router.post("/signup", async (req, res) => {
             DOB
         });
 
+        //creates a user details object for the user with balance 0
+        const user_details = new User_details({
+            user_id: user._id,
+            amount: 0
+        });
+
         await user.save();
+        await user_details.save();
 
         // Generate token expires in 1hr needs to be saved locally
         const token = jwt.sign({ email: user.email, id: user._id }, jwt_pass, {
@@ -156,6 +83,15 @@ router.post('/signin', loginThresholdMiddleware, async (req, res) => {
             await user.incrementLoginAttempts();
             return res.status(401).json({ message: "Invalid credentials" });
         }
+        else{
+            await user.resetLoginAttempts();
+        }
+        
+        //unlocks the accout if the lock time is over
+        if(user.lockUntil && user.lockUntil < Date.now(new Date().toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }))){
+            await user.resetLoginAttempts();
+        }
+
 
         // Successful login - reset attempts
         await user.resetLoginAttempts();
@@ -170,8 +106,6 @@ router.post('/signin', loginThresholdMiddleware, async (req, res) => {
         console.error("Signin Error:", error.message);
         res.status(500).json({ message: "Internal server error" });
     }
-    console.log('Hi signin successful');
-    
 });
 
 

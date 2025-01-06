@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors"); 
 const user_Route = require("./routes/user");
+const user_transaction = require("./routes/user_transactions");
 
 const app = express();
 const port = 8080;
@@ -11,6 +12,7 @@ app.use(cors());
 
 // Routes
 app.use("/auth", user_Route);
+app.use("/api",user_transaction);
 
 // Error middleware
 app.use((err, req, res, next) => {
