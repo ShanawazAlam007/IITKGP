@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Transfer</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">SafeBank</div>
+        <div class="nav-links">
+            <a href="#" class="active">Transfer</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Logout</a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="account-summary">
+            <div class="balance-card">
+                <h3>Available Balance</h3>
+                <p class="amount">₹1,00,000</p>
+            </div>
+        </div>
+
+        <div class="transfer-container">
+            <h2>Money Transfer</h2>
+            <form id="transferForm">
+                <div class="form-group">
+                    <label for="recipientName">Recipient Name</label>
+                    <input type="text" id="recipientName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="accountNumber">Account Number</label>
+                    <input type="text" id="accountNumber" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmAccountNumber">Confirm Account Number</label>
+                    <input type="text" id="confirmAccountNumber" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Transfer Type</label>
+                    <div class="radio-group">
+                        <input type="radio" id="withinBank" name="transferType" value="same" checked>
+                        <label for="withinBank">Within Bank</label>
+                        <input type="radio" id="otherBank" name="transferType" value="other">
+                        <label for="otherBank">Other Bank</label>
+                    </div>
+                </div>
+
+                <div class="form-group" id="ifscCodeGroup" style="display: none;">
+                    <label for="ifscCode">IFSC Code</label>
+                    <input type="text" id="ifscCode">
+                </div>
+
+                <div class="form-group">
+                    <label for="amount">Amount (₹)</label>
+                    <input type="number" id="amount" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="purpose">Purpose</label>
+                    <select id="purpose" name="purpose" required>
+                        <option value="">Select Purpose</option>
+                        <option value="education">Education Fee</option>
+                        <option value="loan">Loan Repayment</option>
+                        <option value="donation">Donation</option>
+                        <option value="gift">Gift</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="otherPurposeGroup" style="display: none;">
+                    <label for="otherPurpose">Specify Purpose</label>
+                    <input type="text" id="otherPurpose" name="otherPurpose">
+                </div>
+                <div class="button-group">
+                    <button type="reset" class="btn-secondary">Reset</button>
+                    <button type="submit" class="btn-primary">Transfer Money</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MyBank. All rights reserved.</p>
+    </footer>
+
+    <script src="payment.js"></script>
+</body>
+</html>
